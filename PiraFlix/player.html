@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PiraFlix Player</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Free  Movies and TV Shows">
+        <link rel="preconnect" href="https://fonts.googleapis.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    </head>
+    <script>
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        var magnet = urlParams.get('magnet')
+    </script>
+    <body>
+        <div id="player" class="webtor"></div>
+        <script>
+            console.log(magnet)
+            window.webtor = window.webtor || [];
+            window.webtor.push({
+                id: 'player',
+                magnet: magnet,
+                on: function(e) {
+                    if (e.name == window.webtor.TORRENT_FETCHED) {
+                        console.log('Torrent fetched!', e.data);
+                    }
+                    if (e.name == window.webtor.TORRENT_ERROR) {
+                        console.log('Torrent error!');
+                    }
+                },
+                poster: 'https://via.placeholder.com/150/0000FF/808080',
+                subtitles: [
+                    {
+                        srclang: 'en',
+                        label: 'test',
+                        src: 'https://raw.githubusercontent.com/andreyvit/subtitle-tools/master/sample.srt',
+                        default: true,
+                    }
+                ],
+                lang: 'en',
+                i18n: {
+                    en: {
+                        common: {
+                            "prepare to play": "Preparing Video Stream... Please Wait...",
+                        },
+                        stat: {
+                            "seeding": "Seeding",
+                            "waiting": "Client initialization",
+                            "waiting for peers": "Waiting for peers",
+                            "from": "from",
+                        },
+                    },
+                },
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+    </body>
+</html>
