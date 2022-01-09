@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PiraFlix - Home</title>
+        <meta charset="UTF-8">
+        <meta name="description" content="Free  Movies and TV Shows">
+        <link rel="preconnect" href="https://fonts.googleapis.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        .midText {
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+        }
+    </style>
+    <body>
+        <h1 id="mainText" class="midText">PIRAFLIX</h1>
+        <div class="midText">
+            <input type="search" placeholder="Search Movies and TV Shows.." id="searchBar" onsearch="search()" style="min-width:22%;">
+            <button onclick="search()">Search</button>
+            <button onclick="somethingNew()">Something New</button>
+            <p id="debug"></p>
+        </div>
+        <p id="bottomText" class="midText">Note: This website may not work on Safari and Internet Explorer.</p>
+    </body>
+    <script>
+        function search() {
+            var title = document.getElementById("searchBar").value;
+            document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
+            document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
+            var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/'+title)
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                if (post[0] !== undefined) {
+                    var category = post[0].Category
+                    if (category == "Video") {
+                        var magnet = post[0].Magnet;
+                        document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                        window.location.href = "./player.html?magnet="+magnet;
+                    } else {
+                        console.log("Error: Movie Not Found")
+                        document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                    }
+                } else {
+                    console.log("Error: Movie Not Found")
+                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                }
+            });
+        }
+        function somethingNew() {
+            let seed = Math.floor(Math.random() * 51);
+            var data = fetch('https://yts.mx/api/v2/list_movies.json?limit=50')
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+            console.log(post.data.movies[seed].title);
+            var title = post.data.movies[seed].title;
+            document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
+            document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
+            var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title)
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                if (post[0] !== undefined) {
+                    var magnet = post[0].Files[1].Magnet;
+                    document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                    window.location.href = "./player.html?title="+title+"&&magnet="+magnet;
+                } else {
+                    console.log("Error: Movie Not Found")
+                    document.getElementById("mainText").innerHTML = "Error: Not Found"
+                }
+            });
+        });
+        }
+    </script>
+</html>
