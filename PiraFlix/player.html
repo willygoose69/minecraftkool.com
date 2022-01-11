@@ -51,6 +51,35 @@
         var desc = urlParams.get('desc')
         var page = Number(urlParams.get('page'))
         var yts = urlParams.get('yts')
+        if (magnet == '') {
+            var searchTerm = title
+            var data = fetch('https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query='+searchTerm)
+            .then(data => {
+                return data.json();
+            })
+            .then(post => {
+                if (post.total_results !== 0) {
+                    movieName = post.results[0].title;
+                    year = post.results[0].release_date.substring(0,4)
+                    title = movieName+' ('+year+')'
+                } else {
+                    title = searchTerm
+                }
+                console.log(title)
+                var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title)
+                .then(data => {
+                return data.json();
+                })
+                .then(post => {
+                    if (post[0] !== undefined) {
+                        var magnet = post[0].Files[1].Magnet;
+                        window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&desc="+desc+"&&page=0&&yts="+videoID;
+                    } else {
+                        console.error("Error: Movie Not Found (Undefined)")
+                    }
+                });
+            });
+        }
         console.log('https://yts.mx/api/v2/movie_suggestions.json?movie_id='+yts.toString())
         if (yts !== "false") {
             var data = fetch('https://yts.mx/api/v2/movie_suggestions.json?movie_id='+yts.toString())
@@ -82,16 +111,28 @@
                     return data.json();
                     })
                     .then(post => {
-                        mag0 = post[0].Files[1].Magnet;
+                        try {mag0 = post[0].Files[1].Magnet;}
+                        catch {mag0 = ''}
                         fetched+=1
                         console.log(mag0)
+                    });
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title1)
+                    .then(data => {
+                    return data.json();
+                    })
+                    .then(post => {
+                        try {mag1 = post[0].Files[1].Magnet;}
+                        catch {mag1 = ''}
+                        fetched+=1
+                        console.log(mag1)
                     });
                     var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title2)
                     .then(data => {
                     return data.json();
                     })
                     .then(post => {
-                        mag2 = post[0].Files[1].Magnet;
+                        try {mag2 = post[0].Files[1].Magnet;}
+                        catch {mag2 = ''}
                         fetched+=1
                         console.log(mag2)
                     });
@@ -100,7 +141,8 @@
                     return data.json();
                     })
                     .then(post => {
-                        mag3 = post[0].Files[1].Magnet;
+                        try {mag3 = post[0].Files[1].Magnet;}
+                        catch {mag3 = ''}
                         fetched+=1
                         console.log(mag3)
                     });
@@ -113,6 +155,9 @@
                         document.getElementById("img0").setAttribute("alt",title0)
                         document.getElementById('img0').setAttribute("src",cover0)
                         document.getElementById('a0').setAttribute("href","player.html?title="+title0+"&&magnet="+mag0+"&&desc="+desc0+"&&page=0&&yts="+id0)
+                        document.getElementById("img1").setAttribute("alt",title1)
+                        document.getElementById('img1').setAttribute("src",cover1)
+                        document.getElementById('a1').setAttribute("href","player.html?title="+title1+"&&magnet="+mag1+"&&desc="+desc1+"&&page=0&&yts="+id1)
                         document.getElementById("img2").innerHTML = title2
                         document.getElementById('img2').setAttribute("src",cover2)
                         document.getElementById('a2').setAttribute("href","player.html?title="+title2+"&&magnet="+mag2+"&&desc="+desc2+"&&page=0&&yts="+id2)
@@ -188,21 +233,20 @@
                 <th style="text-align: center;" ><h2 stype="vertical-align: bottom;" class="titleText">Recommended Movies</h2></th>
             </tr>
             <tr>
-                <th><p class="titleText" id="playerText">The video player is loading..</p><div style="max-width: min-content;" id="player" class="webtor"></div></th>
+                <th>
+                    <p class="titleText" id="playerText">The video player is loading..</p><div style="max-width: min-content;" id="player" class="webtor"></div>
+                    <h2 class="titleText" id="videoTitle"></h2>
+                    <button onclick="lastVideo()"id="lastVideo">Last Video</button>
+                    <button onclick="nextVideo()" id="nextVideo">Next Video</button>
+                    <p class="titleText" id="description"></p>
+                </th>
                 <th class="titleText" style="vertical-align: top; text-align: center;">
                     <a id="a0"><img id="img0"></a>
+                    <a id="a1"><img id="img1"></a>
                     <a id="a2"><img id="img2"></a>
                     <a id="a3"><img id="img3"></a>
                     <p class="titleText" id="recoText" style="text-align: left;">Recommended movies are loading..</p>
                 </th>
-            </tr>
-            <tr>
-                <th><h2 class="titleText" id="videoTitle"></h2>
-                <button onclick="lastVideo()"id="lastVideo">Last Video</button>
-                <button onclick="nextVideo()" id="nextVideo">Next Video</button></th>
-            </tr>
-            <tr>
-                <th style="width: 50%;"><p class="titleText" id="description"></p></th>
             </tr>
         </table>
         <script>

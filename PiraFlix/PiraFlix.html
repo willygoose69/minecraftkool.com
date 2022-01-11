@@ -84,31 +84,45 @@
             })
             .then(post => {
             console.log(post.data.movies[seed].title);
-            var title = post.data.movies[seed].title;
+            var searchTerm = post.data.movies[seed].title;
             var desc = post.data.movies[seed].description_full;
             var videoID = post.data.movies[seed].id
-            document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
-            document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
-            var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title)
+            var data = fetch('https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query='+searchTerm)
             .then(data => {
-            return data.json();
-            })
-            .then(post => {
-                if (post[0] !== undefined) {
-                    var magnet = post[0].Files[1].Magnet;
-                    document.getElementById("mainText").innerHTML = "PIRAFLIX"
-                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
-                    document.getElementById("searchButton").removeAttribute("disabled")
-                    document.getElementById("somethingNewButton").removeAttribute("disabled")
-                    window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&desc="+desc+"&&page=0&&yts="+videoID;
-                } else {
-                    console.error("Error: Movie Not Found (Undefined)")
-                    document.getElementById("mainText").innerHTML = "Error: Not Found"
-                    document.getElementById("searchButton").removeAttribute("disabled")
-                    document.getElementById("somethingNewButton").removeAttribute("disabled")
-                }
+                return data.json();
+                })
+                .then(post => {
+                    if (post.total_results !== 0) {
+                        movieName = post.results[0].title;
+                        year = post.results[0].release_date.substring(0,4)
+                        title = movieName+' ('+year+')'
+                    } else {
+                        title = searchTerm
+                    }
+                    console.log(title)
+                    document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
+                    document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title)
+                    .then(data => {
+                    return data.json();
+                    })
+                    .then(post => {
+                        if (post[0] !== undefined) {
+                            var magnet = post[0].Files[1].Magnet;
+                            document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                            document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                            document.getElementById("searchButton").removeAttribute("disabled")
+                            document.getElementById("somethingNewButton").removeAttribute("disabled")
+                            window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&desc="+desc+"&&page=0&&yts="+videoID;
+                        } else {
+                            console.error("Error: Movie Not Found (Undefined)")
+                            document.getElementById("mainText").innerHTML = "Error: Not Found"
+                            document.getElementById("searchButton").removeAttribute("disabled")
+                            document.getElementById("somethingNewButton").removeAttribute("disabled")
+                        }
+                    });
+                });
             });
-        });
         }
     </script>
 </html>
