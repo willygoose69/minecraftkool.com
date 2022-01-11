@@ -8,15 +8,216 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     </head>
+    <style>
+        .titleText {
+        font-family: 'Roboto', sans-serif;
+        }
+        a:link {
+        text-decoration: none;
+        }
+        a:visited {
+        text-decoration: none;
+        }
+        a:hover {
+        text-decoration: none;
+        }
+        a:active {
+        text-decoration: none;
+        }
+        a:link {
+        color: rgb(0, 0, 0);
+        }
+        a:visited {
+        color: rgb(0, 0, 0);
+        }
+        a:hover {
+        color: rgb(0, 0, 0);
+        }
+        a:active {
+        color: rgb(0, 0, 0);
+        } 
+        td {
+        text-align: left;
+        }
+        tr {
+        text-align: left;
+        }
+    </style>
     <script>
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         var magnet = urlParams.get('magnet')
+        var title = urlParams.get('title')
+        var desc = urlParams.get('desc')
+        var page = Number(urlParams.get('page'))
+        var yts = urlParams.get('yts')
+        console.log('https://yts.mx/api/v2/movie_suggestions.json?movie_id='+yts.toString())
+        if (yts !== "false") {
+            var data = fetch('https://yts.mx/api/v2/movie_suggestions.json?movie_id='+yts.toString())
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                console.log(post)
+                var title0=post.data.movies[0].title
+                var title1=post.data.movies[1].title
+                var title2=post.data.movies[2].title
+                var title3=post.data.movies[3].title
+                var cover0=post.data.movies[0].medium_cover_image
+                var cover1=post.data.movies[1].medium_cover_image
+                var cover2=post.data.movies[2].medium_cover_image
+                var cover3=post.data.movies[3].medium_cover_image
+                var desc0=post.data.movies[0].description_full
+                var desc1=post.data.movies[1].description_full
+                var desc2=post.data.movies[2].description_full
+                var desc3=post.data.movies[3].description_full
+                var id0=post.data.movies[0].id
+                var id1=post.data.movies[1].id
+                var id2=post.data.movies[2].id
+                var id3=post.data.movies[3].id
+                var fetched = 0
+                function fetchmag() {
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title0)
+                    .then(data => {
+                    return data.json();
+                    })
+                    .then(post => {
+                        mag0 = post[0].Files[1].Magnet;
+                        fetched+=1
+                        console.log(mag0)
+                    });
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title2)
+                    .then(data => {
+                    return data.json();
+                    })
+                    .then(post => {
+                        mag2 = post[0].Files[1].Magnet;
+                        fetched+=1
+                        console.log(mag2)
+                    });
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title3)
+                    .then(data => {
+                    return data.json();
+                    })
+                    .then(post => {
+                        mag3 = post[0].Files[1].Magnet;
+                        fetched+=1
+                        console.log(mag3)
+                    });
+                }
+                fetchmag()
+                apply()
+                function apply() {
+                    if (fetched > 2) {
+                        document.getElementById("recoText").remove()
+                        document.getElementById("img0").setAttribute("alt",title0)
+                        document.getElementById('img0').setAttribute("src",cover0)
+                        document.getElementById('a0').setAttribute("href","player.html?title="+title0+"&&magnet="+mag0+"&&desc="+desc0+"&&page=0&&yts="+id0)
+                        document.getElementById("img2").innerHTML = title2
+                        document.getElementById('img2').setAttribute("src",cover2)
+                        document.getElementById('a2').setAttribute("href","player.html?title="+title2+"&&magnet="+mag2+"&&desc="+desc2+"&&page=0&&yts="+id2)
+                        document.getElementById("img3").innerHTML = title3
+                        document.getElementById('img3').setAttribute("src",cover3)
+                        document.getElementById('a3').setAttribute("href","player.html?title="+title3+"&&magnet="+mag3+"&&desc="+desc3+"&&page=0&&yts="+id3)
+                    } else {
+                        console.log(fetched)
+                        title0=title0.replace(/\s/g, '%20') //HimynameisFlavio
+                        title2=title2.replace(/\s/g, '%20') //HimynameisFlavio
+                        title3=title3.replace(/\s/g, '%20') //HimynameisFlavio
+                        desc0=desc0.replace(/\s/g, '%20') //HimynameisFlavio
+                        desc2=desc2.replace(/\s/g, '%20') //HimynameisFlavio
+                        desc3=desc3.replace(/\s/g, '%20') //HimynameisFlavio
+                        setTimeout(() => {  apply(); }, 1000);
+                    }
+                }
+            });
+        }
+        function lastVideo() {
+            var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/'+title)
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                if (post[(page-2)] !== undefined) {
+                    var category = post[(page-2)].Category
+                    if (category == "Video") {
+                        var magnet = post[(page-2)].Magnet;
+                        document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                        window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&page="+(page-1);
+                    } else {
+                        console.error("Error: Category Not 'Video'")
+                        document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                        document.getElementById("lastVideo").remove()
+                    }
+                } else {
+                    console.error("Error: Movie Not Found (Undefined)")
+                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                    document.getElementById("lastVideo").remove()
+                }
+            });
+        }
+        function nextVideo() {
+            var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/'+title)
+            .then(data => {
+            return data.json();
+            })
+            .then(post => {
+                if (post[page] !== undefined) {
+                    var category = post[page].Category
+                    if (category == "Video") {
+                        var magnet = post[page].Magnet;
+                        document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                        window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&page="+(page+1);
+                    } else {
+                        console.error("Error: Category Not 'Video'")
+                        document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                        document.getElementById("nextVideo").remove()
+                    }
+                } else {
+                    console.error("Error: Movie Not Found (Undefined)")
+                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                    document.getElementById("nextVideo").remove()
+                }
+            });
+        }
     </script>
     <body>
-        <div id="player" class="webtor"></div>
+        <table style="width: 100%;">
+            <tr>
+                <th style="width: 50%;"><h1><a id="mainText" class="titleText" href="PiraFlix.html">PIRAFLIX</a></h1></th>
+                <th style="text-align: center;" ><h2 stype="vertical-align: bottom;" class="titleText">Recommended Movies</h2></th>
+            </tr>
+            <tr>
+                <th><p class="titleText" id="playerText">The video player is loading..</p><div style="max-width: min-content;" id="player" class="webtor"></div></th>
+                <th class="titleText" style="vertical-align: top; text-align: center;">
+                    <a id="a0"><img id="img0"></a>
+                    <a id="a2"><img id="img2"></a>
+                    <a id="a3"><img id="img3"></a>
+                    <p class="titleText" id="recoText" style="text-align: left;">Recommended movies are loading..</p>
+                </th>
+            </tr>
+            <tr>
+                <th><h2 class="titleText" id="videoTitle"></h2>
+                <button onclick="lastVideo()"id="lastVideo">Last Video</button>
+                <button onclick="nextVideo()" id="nextVideo">Next Video</button></th>
+            </tr>
+            <tr>
+                <th style="width: 50%;"><p class="titleText" id="description"></p></th>
+            </tr>
+        </table>
         <script>
             console.log(magnet)
+            if (title !== "null") {
+                document.getElementById("videoTitle").innerHTML = title
+            } if (desc !== "null") {
+                document.getElementById("description").innerHTML = desc
+            }
+            if (page == 0) {
+                document.getElementById("lastVideo").remove()
+                document.getElementById("nextVideo").remove()
+            } if (page == 1) {
+                document.getElementById("lastVideo").remove()
+            }
             window.webtor = window.webtor || [];
             window.webtor.push({
                 id: 'player',
@@ -24,9 +225,11 @@
                 on: function(e) {
                     if (e.name == window.webtor.TORRENT_FETCHED) {
                         console.log('Torrent fetched!', e.data);
+                        document.getElementById("playerText").remove();
                     }
                     if (e.name == window.webtor.TORRENT_ERROR) {
                         console.log('Torrent error!');
+                        document.getElementById("playerText").innerHTML = "Error: The player failed to initialize.";
                     }
                 },
                 poster: 'https://via.placeholder.com/150/0000FF/808080',

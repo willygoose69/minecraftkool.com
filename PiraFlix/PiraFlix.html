@@ -15,42 +15,68 @@
         }
     </style>
     <body>
-        <h1 id="mainText" class="midText">PIRAFLIX</h1>
+        <h2 id="mainText" class="midText">PIRAFLIX</h2>
         <div class="midText">
-            <input type="search" placeholder="Search Movies and TV Shows.." id="searchBar" onsearch="search()" style="min-width:22%;">
-            <button onclick="search()">Search</button>
-            <button onclick="somethingNew()">Something New</button>
+            <input id="searchBar" type="search" placeholder="Search Movies and TV Shows.." id="searchBar" onsearch="search()" style="min-width:22%;">
+            <button id="searchButton" onclick="search()">Search</button>
+            <button id="somethingNewButton" onclick="somethingNew()">Something New</button>
             <p id="debug"></p>
         </div>
         <p id="bottomText" class="midText">Note: This website may not work on Safari and Internet Explorer.</p>
     </body>
     <script>
         function search() {
-            var title = document.getElementById("searchBar").value;
-            document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
-            document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
-            var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/'+title)
-            .then(data => {
-            return data.json();
-            })
-            .then(post => {
-                if (post[0] !== undefined) {
-                    var category = post[0].Category
-                    if (category == "Video") {
-                        var magnet = post[0].Magnet;
-                        document.getElementById("mainText").innerHTML = "PIRAFLIX"
-                        window.location.href = "./player.html?magnet="+magnet;
+            if (document.getElementById("searchBar").value !== "") {
+                document.getElementById("searchButton").setAttribute("disabled","True")
+                document.getElementById("somethingNewButton").setAttribute("disabled","True")
+                var searchTerm = document.getElementById("searchBar").value;
+                document.getElementById("mainText").innerHTML = "Now Loading '"+searchTerm+"'"
+                document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
+                var data = fetch('https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query='+searchTerm)
+                .then(data => {
+                return data.json();
+                })
+                .then(post => {
+                    if (post.total_results !== 0) {
+                        movieName = post.results[0].title;
+                        year = post.results[0].release_date.substring(0,4)
+                        title = movieName+' ('+year+')'
                     } else {
-                        console.log("Error: Movie Not Found")
-                        document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                        title = searchTerm
                     }
-                } else {
-                    console.log("Error: Movie Not Found")
-                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
-                }
-            });
+                    console.log(title)
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/'+title)
+                    .then(data => {
+                    return data.json();
+                    })
+                    .then(post => {
+                        if (post[0] !== undefined) {
+                            var category = post[0].Category
+                            if (category == "Video") {
+                                var magnet = post[0].Magnet;
+                                document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                                document.getElementById("searchButton").removeAttribute("disabled")
+                                document.getElementById("somethingNewButton").removeAttribute("disabled")
+                                window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&page=1&&yts=false";
+                            } else {
+                                console.error("Error: Category Not 'Video'")
+                                document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                                document.getElementById("searchButton").removeAttribute("disabled")
+                                document.getElementById("somethingNewButton").removeAttribute("disabled")
+                            }
+                        } else {
+                            console.error("Error: Movie Not Found (Undefined)")
+                            document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                            document.getElementById("searchButton").removeAttribute("disabled")
+                            document.getElementById("somethingNewButton").removeAttribute("disabled")
+                        }
+                    });
+                });
+            }
         }
         function somethingNew() {
+            document.getElementById("searchButton").setAttribute("disabled","True")
+            document.getElementById("somethingNewButton").setAttribute("disabled","True")
             let seed = Math.floor(Math.random() * 51);
             var data = fetch('https://yts.mx/api/v2/list_movies.json?limit=50')
             .then(data => {
@@ -59,6 +85,8 @@
             .then(post => {
             console.log(post.data.movies[seed].title);
             var title = post.data.movies[seed].title;
+            var desc = post.data.movies[seed].description_full;
+            var videoID = post.data.movies[seed].id
             document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
             document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
             var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title)
@@ -69,10 +97,15 @@
                 if (post[0] !== undefined) {
                     var magnet = post[0].Files[1].Magnet;
                     document.getElementById("mainText").innerHTML = "PIRAFLIX"
-                    window.location.href = "./player.html?title="+title+"&&magnet="+magnet;
+                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                    document.getElementById("searchButton").removeAttribute("disabled")
+                    document.getElementById("somethingNewButton").removeAttribute("disabled")
+                    window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&desc="+desc+"&&page=0&&yts="+videoID;
                 } else {
-                    console.log("Error: Movie Not Found")
+                    console.error("Error: Movie Not Found (Undefined)")
                     document.getElementById("mainText").innerHTML = "Error: Not Found"
+                    document.getElementById("searchButton").removeAttribute("disabled")
+                    document.getElementById("somethingNewButton").removeAttribute("disabled")
                 }
             });
         });
