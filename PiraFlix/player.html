@@ -22,10 +22,26 @@
             }
 
         }
+        .content {
+            display: inline-block; /* inline block so the sidebar can be after the content in the markup */
+            width: 800px; /* 100% minus the width of the sidebar */
+        }
         .recoMovies {
             width: 230px;
             height: 345px;
             border: 0;
+        }
+        .sidebar {
+            float: right; 
+            width: calc(100% - 800px);
+            text-align: center;
+        }
+        @media (max-width: 1045px) { /* when the width is less than 30em, make both of the widths 100% */
+            .content,
+            .sidebar {
+                width: 100%;
+                text-align: left;
+            }
         }
         .titleText {
         font-family: 'Roboto', sans-serif;
@@ -244,28 +260,21 @@
         }
     </script>
     <body>
-        <table style="width: 100%;">
-            <tr>
-                <th style="width: 50%;"><h1><a id="mainText" class="titleText" href="PiraFlix.html">PIRAFLIX</a></h1></th>
-                <th style="text-align: center;" ><h2 stype="vertical-align: bottom;" class="titleText">Recommended Movies</h2></th>
-            </tr>
-            <tr>
-                <th style="vertical-align: top;">
-                    <div style="max-width: min-content;" id="player" class="webtor skeleton"></div>
-                    <h2 class="titleText" id="videoTitle"></h2>
-                    <button onclick="lastVideo()"id="lastVideo">Last Video</button>
-                    <button onclick="nextVideo()" id="nextVideo">Next Video</button>
-                    <p class="titleText" id="description"></p>
-                </th>
-                <th class="titleText" style="vertical-align: top; text-align: center;">
-                    <a id="a0"><img id="img0" class="recoMovies skeleton" src="./images/transparent.png"></a>
-                    <a id="a1"><img id="img1" class="recoMovies skeleton" src="./images/transparent.png"></a>
-                    <br>
-                    <a id="a2"><img id="img2" class="recoMovies skeleton" src="./images/transparent.png"></a>
-                    <a id="a3"><img id="img3" class="recoMovies skeleton" src="./images/transparent.png"></a>   
-                </th>
-            </tr>
-        </table>
+        <div class="content">
+            <h1><a id="mainText" class="titleText" href="PiraFlix.html">PIRAFLIX</a></h1>
+            <div style="max-width: min-content;" id="player" class="webtor skeleton"></div>
+            <h2 class="titleText" id="videoTitle"></h2>
+            <button onclick="lastVideo()"id="lastVideo">Last Video</button>
+            <button onclick="nextVideo()" id="nextVideo">Next Video</button>
+            <p style="max-width: 800px;" class="titleText" id="description"></p>
+        </div>
+        <div class="sidebar">
+            <h2 class="titleText">Recommended</h2>
+            <a id="a0"><img id="img0" class="recoMovies skeleton" src="./images/transparent.png"></a>
+            <a id="a1"><img id="img1" class="recoMovies skeleton" src="./images/transparent.png"></a>
+            <a id="a2"><img id="img2" class="recoMovies skeleton" src="./images/transparent.png"></a>
+            <a id="a3"><img id="img3" class="recoMovies skeleton" src="./images/transparent.png"></a>   
+        </div>
         <script>
             console.log(magnet)
             if (title !== "null") {
