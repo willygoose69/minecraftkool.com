@@ -9,6 +9,24 @@
         <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
     </head>
     <style>
+        .skeleton {
+            animation: skeleton-loading 1s linear infinite alternate;
+            height: 450px;
+        }
+        @keyframes skeleton-loading {
+            0% {
+                background-color: hsl(200, 20%, 90%);
+            }
+            100% {
+                background-color: hsl(200, 20%, 95%);
+            }
+
+        }
+        .recoMovies {
+            width: 230px;
+            height: 345px;
+            border: 0;
+        }
         .titleText {
         font-family: 'Roboto', sans-serif;
         }
@@ -151,7 +169,6 @@
                 apply()
                 function apply() {
                     if (fetched > 2) {
-                        document.getElementById("recoText").remove()
                         document.getElementById("img0").setAttribute("alt",title0)
                         document.getElementById('img0').setAttribute("src",cover0)
                         document.getElementById('a0').setAttribute("href","player.html?title="+title0+"&&magnet="+mag0+"&&desc="+desc0+"&&page=0&&yts="+id0)
@@ -233,19 +250,19 @@
                 <th style="text-align: center;" ><h2 stype="vertical-align: bottom;" class="titleText">Recommended Movies</h2></th>
             </tr>
             <tr>
-                <th>
-                    <p class="titleText" id="playerText">The video player is loading..</p><div style="max-width: min-content;" id="player" class="webtor"></div>
+                <th style="vertical-align: top;">
+                    <div style="max-width: min-content;" id="player" class="webtor skeleton"></div>
                     <h2 class="titleText" id="videoTitle"></h2>
                     <button onclick="lastVideo()"id="lastVideo">Last Video</button>
                     <button onclick="nextVideo()" id="nextVideo">Next Video</button>
                     <p class="titleText" id="description"></p>
                 </th>
                 <th class="titleText" style="vertical-align: top; text-align: center;">
-                    <a id="a0"><img id="img0"></a>
-                    <a id="a1"><img id="img1"></a>
-                    <a id="a2"><img id="img2"></a>
-                    <a id="a3"><img id="img3"></a>
-                    <p class="titleText" id="recoText" style="text-align: left;">Recommended movies are loading..</p>
+                    <a id="a0"><img id="img0" class="recoMovies skeleton" src="/images/transparent.png"></a>
+                    <a id="a1"><img id="img1" class="recoMovies skeleton" src="/images/transparent.png"></a>
+                    <br>
+                    <a id="a2"><img id="img2" class="recoMovies skeleton" src="/images/transparent.png"></a>
+                    <a id="a3"><img id="img3" class="recoMovies skeleton" src="/images/transparent.png"></a>   
                 </th>
             </tr>
         </table>
@@ -269,7 +286,6 @@
                 on: function(e) {
                     if (e.name == window.webtor.TORRENT_FETCHED) {
                         console.log('Torrent fetched!', e.data);
-                        document.getElementById("playerText").remove();
                     }
                     if (e.name == window.webtor.TORRENT_ERROR) {
                         console.log('Torrent error!');
