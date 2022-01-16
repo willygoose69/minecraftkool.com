@@ -235,7 +235,7 @@ tr {
 /* Movies Page */
 
 .titleBar {
-    position: fixed;
+    position: absolute;
     float: top;
     background-color: var(--bar-color);
     width: 100%;
@@ -259,7 +259,7 @@ tr {
     grid-template-columns: repeat(3, 100%);
     overflow: hidden;
     scroll-behavior: smooth;
-    height: 370px;
+    height: 380px;
 }
 
 .coverImage {
@@ -269,15 +269,18 @@ tr {
     vertical-align: middle;
     margin-left: 4.2px;
     margin-right: 4.2px;
-    border: none;
+    margin-top: 25px;
+    border-radius: 7px;
 }
 
 .coverImage:hover {
     border-radius: 12px;
     height: 370px;
     width: 246.67px;
+    margin-top: 0px;
     margin-left: 0px;
     margin-right: 0px;
+    box-shadow: 0px 3px 3px 1px var(--shadow-color);
 }
 
 @media only screen and (max-width: 1318px) {
@@ -317,4 +320,12 @@ tr {
     background-color: var(--accent-color);
     color: white;
     border-radius: 10px;
+}
+
+.subHeading {
+    font-family: std;
+    position: relative;
+    left: 45px;
+    width: min-content;
+    white-space: nowrap;
 }

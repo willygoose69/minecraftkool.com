@@ -34,6 +34,8 @@
                     movieName = post.results[0].title;
                     year = post.results[0].release_date.substring(0, 4)
                     title = movieName + ' (' + year + ')'
+                    for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                        genre = genre.concat(post.results[0].genre_ids[i] + ',')}
                 } else {
                     title = searchTerm
                 }
@@ -47,7 +49,7 @@
                             if (post[0].Magnet != undefined) {
                                 var magnet = post[0].Magnet;
                                 window.location.href = "./player.html?title=" + title + "&&magnet=" + magnet +
-                                    "&&desc=" + desc + "&&page=1&&yts=" + yts;
+                                    "&&desc=" + desc + "&&page=1&&genre="+genre+"&&yts=" + yts;
                             } else {
                                 var magnet = post[1].Magnet;
                                 window.location.href = "./player.html?title=" + title + "&&magnet=" + magnet +
@@ -55,7 +57,7 @@
                             }
                         } else {
                             console.error("Error: Movie Not Found (Undefined)")
-                            document.getElementById("error") =
+                            document.getElementById("player").innerText =
                                 "Sorry, the video you requested can not be found.";
                         }
                     });
@@ -240,12 +242,12 @@
                             page - 1);
                     } else {
                         console.error("Error: Category Not 'Video'")
-                        document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                        document.getElementById("mainText").innertext = "Error: Video Not Found"
                         document.getElementById("lastVideo").remove()
                     }
                 } else {
                     console.error("Error: Movie Not Found (Undefined)")
-                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                    document.getElementById("mainText").innertext = "Error: Video Not Found"
                     document.getElementById("lastVideo").remove()
                 }
             });
@@ -266,12 +268,12 @@
                             page + 1);
                     } else {
                         console.error("Error: Category Not 'Video'")
-                        document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                        document.getElementById("player").innerHTML = "Error: Video Not Found"
                         document.getElementById("nextVideo").remove()
                     }
                 } else {
                     console.error("Error: Movie Not Found (Undefined)")
-                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                    document.getElementById("player").innerHTML = "Error: Video Not Found"
                     document.getElementById("nextVideo").remove()
                 }
             });
