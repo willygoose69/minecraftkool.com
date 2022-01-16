@@ -1,128 +1,162 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>PiraFlix - Home</title>
-        <meta charset="UTF-8">
-        <meta name="description" content="Free  Movies and TV Shows">
-        <link rel="preconnect" href="https://fonts.googleapis.com"> 
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
-    </head>
-    <style>
-        .midText {
-            font-family: 'Roboto', sans-serif;
-            text-align: center;
-        }
-    </style>
-    <body>
-        <h2 id="mainText" class="midText">PIRAFLIX</h2>
+
+<head>
+    <title>PiraFlix - Home</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Free  Movies and TV Shows">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="piraflix.css">
+</head>
+
+<body>
+    <div>
+        <h1 id="mainText" class="midText mainText" style="margin-bottom: 3px; cursor: default;">PIRAFLIX</h1>
         <div class="midText">
-            <input id="searchBar" type="search" placeholder="Search Movies and TV Shows.." id="searchBar" onsearch="search()" style="min-width:22%;">
-            <button id="searchButton" onclick="search()">Search</button>
-            <button id="somethingNewButton" onclick="somethingNew()">Something New</button>
+            <div class="outerSearch" id="outerSearch">
+                <input type="search" placeholder="Search Movies and TV Shows.." id="searchBar" onsearch="search()"
+                    class="search-bar">
+                <button id="searchButton" onclick="search()" class="searchButton"><span class="material-icons"
+                        style="font-size: 25px;">search</span></button>
+            </div>
+            <div style="margin-top: 3px; cursor: default;">
+                <button id="somethingNewButton" class="blackButton" onclick="somethingNew()">Something New</button>
+                <a href="movies.html"><button id="moviesButton" class="blackButton">List Movies</button></a>
+            </div>
             <p id="debug"></p>
         </div>
-        <p id="bottomText" class="midText">Note: This website may not work on Safari and Internet Explorer.</p>
-    </body>
-    <script>
-        function search() {
-            if (document.getElementById("searchBar").value !== "") {
-                document.getElementById("searchButton").setAttribute("disabled","True")
-                document.getElementById("somethingNewButton").setAttribute("disabled","True")
-                var searchTerm = document.getElementById("searchBar").value;
-                document.getElementById("mainText").innerHTML = "Now Loading '"+searchTerm+"'"
-                document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
-                var data = fetch('https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query='+searchTerm)
+        <p id="loader" class="midText"></p>
+        <p id="bottomText" class="midText">Note: This website may not work well on Safari and Internet Explorer.</p>
+    </div>
+</body>
+<script>
+    function search() {
+        if (document.getElementById("searchBar").value !== "") {
+            document.getElementById("searchButton").setAttribute("disabled", "True")
+            document.getElementById("somethingNewButton").setAttribute("disabled", "True")
+            document.getElementById("moviesButton").setAttribute("disabled", "True")
+            var searchTerm = document.getElementById("searchBar").value;
+            document.getElementById("loader").innerText = "Now Loading '" + searchTerm + "'"
+            document.getElementById("bottomText").innerText = "It takes time to find the magnet link.."
+            var data = fetch(
+                    'https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query=' +
+                    searchTerm)
                 .then(data => {
-                return data.json();
+                    return data.json();
                 })
                 .then(post => {
                     if (post.total_results !== 0) {
                         movieName = post.results[0].title;
-                        year = post.results[0].release_date.substring(0,4)
-                        title = movieName+' ('+year+')'
+                        year = post.results[0].release_date.substring(0, 4)
+                        title = movieName + ' (' + year + ')'
+                        desc = post.results[0].overview
+                        genre = ""
+                        for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                            genre = genre.concat(post.results[i].genre_ids + ',')
+                        }
                     } else {
                         title = searchTerm
                     }
                     console.log(title)
-                    var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/'+title)
-                    .then(data => {
-                    return data.json();
-                    })
-                    .then(post => {
-                        if (post[0] !== undefined) {
-                            var category = post[0].Category
-                            if (category == "Video") {
-                                var magnet = post[0].Magnet;
-                                document.getElementById("mainText").innerHTML = "PIRAFLIX"
-                                document.getElementById("searchButton").removeAttribute("disabled")
-                                document.getElementById("somethingNewButton").removeAttribute("disabled")
-                                window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&page=1&&yts=false";
+                    var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/' + title)
+                        .then(data => {
+                            return data.json();
+                        })
+                        .then(post => {
+                            if (post[0] !== undefined) {
+                                var category = post[0].Category
+                                if (category == "Video") {
+                                    var magnet = post[0].Magnet;
+                                    document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                                    document.getElementById("searchButton").removeAttribute("disabled")
+                                    document.getElementById("somethingNewButton").removeAttribute("disabled")
+                                    document.getElementById("moviesButton").removeAttribute("disabled")
+                                    window.location.href = "./player.html?title=" + title + "&&magnet=" +
+                                        magnet + "&&page=1&&desc=" + desc + "&&genre=" + genre + "&&yts=false";
+                                } else {
+                                    console.error("Error: Category Not 'Video'")
+                                    document.getElementById("mainText").innerHTML = "Error: Video Not Found"
+                                    document.getElementById("searchButton").removeAttribute("disabled")
+                                    document.getElementById("somethingNewButton").removeAttribute("disabled")
+                                    document.getElementById("moviesButton").removeAttribute("disabled")
+                                }
                             } else {
-                                console.error("Error: Category Not 'Video'")
+                                console.error("Error: Movie Not Found (Undefined)")
                                 document.getElementById("mainText").innerHTML = "Error: Video Not Found"
                                 document.getElementById("searchButton").removeAttribute("disabled")
                                 document.getElementById("somethingNewButton").removeAttribute("disabled")
+                                document.getElementById("moviesButton").removeAttribute("disabled")
                             }
-                        } else {
-                            console.error("Error: Movie Not Found (Undefined)")
-                            document.getElementById("mainText").innerHTML = "Error: Video Not Found"
-                            document.getElementById("searchButton").removeAttribute("disabled")
-                            document.getElementById("somethingNewButton").removeAttribute("disabled")
-                        }
-                    });
+                        });
                 });
-            }
         }
-        function somethingNew() {
-            document.getElementById("searchButton").setAttribute("disabled","True")
-            document.getElementById("somethingNewButton").setAttribute("disabled","True")
-            let seed = Math.floor(Math.random() * 51);
-            var data = fetch('https://yts.mx/api/v2/list_movies.json?limit=50')
-            .then(data => {
-            return data.json();
-            })
-            .then(post => {
-            console.log(post.data.movies[seed].title);
-            var searchTerm = post.data.movies[seed].title;
-            var desc = post.data.movies[seed].description_full;
-            var videoID = post.data.movies[seed].id
-            var data = fetch('https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query='+searchTerm)
+    }
+
+    function somethingNew() {
+        document.getElementById("searchButton").setAttribute("disabled", "True")
+        document.getElementById("somethingNewButton").setAttribute("disabled", "True")
+        document.getElementById("moviesButton").setAttribute("disabled", "True")
+        document.getElementById("loader").innerHTML = "Please Wait.."
+        let seed = Math.floor(Math.random() * 51);
+        var data = fetch('https://yts.mx/api/v2/list_movies.json?limit=50')
             .then(data => {
                 return data.json();
-                })
-                .then(post => {
-                    if (post.total_results !== 0) {
-                        movieName = post.results[0].title;
-                        year = post.results[0].release_date.substring(0,4)
-                        title = movieName+' ('+year+')'
-                    } else {
-                        title = searchTerm
-                    }
-                    console.log(title)
-                    document.getElementById("mainText").innerHTML = "Now Loading '"+title+"'"
-                    document.getElementById("bottomText").innerHTML = "It takes time to find the magnet link.."
-                    var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/'+title)
+            })
+            .then(post => {
+                console.log(post.data.movies[seed].title);
+                var searchTerm = post.data.movies[seed].title;
+                var desc = post.data.movies[seed].description_full;
+                var videoID = post.data.movies[seed].id
+                var data = fetch(
+                        'https://api.themoviedb.org/3/search/movie?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query=' +
+                        searchTerm)
                     .then(data => {
-                    return data.json();
+                        return data.json();
                     })
                     .then(post => {
-                        if (post[0] !== undefined) {
-                            var magnet = post[0].Files[1].Magnet;
-                            document.getElementById("mainText").innerHTML = "PIRAFLIX"
-                            document.getElementById("mainText").innerHTML = "Error: Video Not Found"
-                            document.getElementById("searchButton").removeAttribute("disabled")
-                            document.getElementById("somethingNewButton").removeAttribute("disabled")
-                            window.location.href = "./player.html?title="+title+"&&magnet="+magnet+"&&desc="+desc+"&&page=0&&yts="+videoID;
+                        if (post.total_results !== 0) {
+                            movieName = post.results[0].title;
+                            year = post.results[0].release_date.substring(0, 4)
+                            title = movieName + ' (' + year + ')'
+                            genre = ""
+                            for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                                genre = genre.concat(post.results[i].genre_ids + ',')
+                            }
                         } else {
-                            console.error("Error: Movie Not Found (Undefined)")
-                            document.getElementById("mainText").innerHTML = "Error: Not Found"
-                            document.getElementById("searchButton").removeAttribute("disabled")
-                            document.getElementById("somethingNewButton").removeAttribute("disabled")
+                            title = searchTerm
                         }
+                        console.log(title)
+                        document.getElementById("loader").innerHTML = "Now Loading '" + title + "'"
+                        document.getElementById("loader").innerHTML =
+                            "It takes time to find the magnet link.."
+                        var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/' + title)
+                            .then(data => {
+                                return data.json();
+                            })
+                            .then(post => {
+                                console.log(post)
+                                if (post[0] !== undefined) {
+                                    var magnet = post[0].Files[1].Magnet;
+                                    document.getElementById("loader").innerHTML = "PIRAFLIX"
+                                    document.getElementById("loader").innerHTML = "Error: Video Not Found"
+                                    document.getElementById("searchButton").removeAttribute("disabled")
+                                    document.getElementById("moviesButton").removeAttribute("disabled")
+                                    document.getElementById("somethingNewButton").removeAttribute(
+                                        "disabled")
+                                    window.location.href = "./player.html?title=" + title + "&&magnet=" +
+                                        magnet + "&&desc=" + desc + "&&page=0&&genre" + genre + "&&yts=" +
+                                        videoID;
+                                } else {
+                                    console.error("Error: Movie Not Found (Undefined)")
+                                    somethingNew()
+                                }
+                            });
                     });
-                });
             });
-        }
-    </script>
+    }
+</script>
+
 </html>

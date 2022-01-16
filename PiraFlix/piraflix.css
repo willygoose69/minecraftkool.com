@@ -1,0 +1,320 @@
+/* Global Behaviour */
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #222;
+        color: rgb(221, 221, 221);
+    }
+
+    :root {
+        --shadow-color: #111;
+        --accent-color: #333;
+        --text-color: rgb(221, 221, 221);
+        --skeleton-dark: hsl(180, 0%, 9%);
+        --skeleton-light: hsl(180, 0%, 11%);
+        --bar-color: rgb(41, 41, 41);
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    body {
+        background: white;
+        color: #555;
+    }
+
+    :root {
+        --shadow-color: grey;
+        --accent-color: #333;
+        --text-color: #555;
+        --skeleton-dark: hsl(200, 20%, 90%);
+        --skeleton-light: hsl(200, 20%, 97%);
+        --bar-color: rgb(250, 250, 250);
+    }
+}
+
+@font-face {
+    font-family: std;
+    src: url(/resources/std.ttf);
+}
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #777 #555;
+    scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar {
+    width: 1vw
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: #7775;
+    transition: 0.3s;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+html::-webkit-scrollbar-track {
+    background-color: #5555;
+    transition: 0.3s;
+}
+
+html::-webkit-scrollbar-track:hover {
+    background-color: #555;
+}
+
+/* All Pages */
+
+.blackButton {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 7px;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.blackButton:hover {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.mainText {
+    font-size: 550%;
+    align-content: bottom;
+}
+
+/* Index Page */
+
+.midText {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+}
+
+.search-bar {
+    width: calc(100% - 37px);
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: transparent;
+    border: 0px none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    font-size: 13.35px;
+}
+
+::placeholder {
+    color: rgb(216, 216, 216);
+    opacity: 1;
+    font-family: 'Roboto', 'sans-serif';
+}
+
+.outerSearch {
+    background-color: var(--accent-color);
+    width: 65%;
+    margin: auto;
+    border: 2px;
+    border-radius: 10px;
+    text-align: right;
+    box-shadow: none;
+    transition: 0.3s;
+}
+
+.outerSearch:hover {
+    box-shadow: 2px 1px 5px 0.5px var(--shadow-color);
+}
+
+.searchButton {
+    position: relative;
+    top: 8px;
+    right: 8px;
+    padding: 0px 0px;
+    border: none;
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+
+
+/* Player Page */
+
+.skeleton {
+    animation: skeleton-loading 1s linear infinite alternate;
+    height: 450px;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: var(--skeleton-dark);
+    }
+
+    100% {
+        background-color: var(--skeleton-light);
+    }
+
+}
+
+
+.content {
+    display: inline-block;
+    width: 800px;
+}
+
+.recoMovies {
+    width: 230px;
+    height: 345px;
+    border: 0;
+}
+
+
+.sidebar {
+    float: right;
+    width: calc(100% - 800px);
+    text-align: center;
+    position: relative;
+    top: 16px;
+}
+
+@media (max-width: 1045px) {
+
+    .content,
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.titleText {
+    font-family: 'Roboto', sans-serif;
+    color: default;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:active {
+    text-decoration: none;
+}
+
+a:link {
+    color: var(--text-color);
+}
+
+a:visited {
+    color: var(--text-color);
+}
+
+a:hover {
+    color: var(--text-color);
+}
+
+a:active {
+    color: var(--text-color);
+}
+
+td {
+    text-align: left;
+}
+
+tr {
+    text-align: left;
+}
+
+/* Movies Page */
+
+.titleBar {
+    position: fixed;
+    float: top;
+    background-color: var(--bar-color);
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    height: 70px;
+    box-shadow: 2px 1px 5px 0.5px var(--shadow-color);
+    transition: 0.3s;
+}
+
+.titleBar:hover {
+    box-shadow: 2px 5px 5px 0.5px var(--shadow-color);
+}
+
+.underBar {
+    height: 70px;
+}
+
+.moviesPane {
+    display: grid;
+    grid-template-columns: repeat(3, 100%);
+    overflow: hidden;
+    scroll-behavior: smooth;
+    height: 370px;
+}
+
+.coverImage {
+    height:345px;
+    width: 230px;
+    transition: 0.3s;
+    vertical-align: middle;
+    margin-left: 4.2px;
+    margin-right: 4.2px;
+    border: none;
+}
+
+.coverImage:hover {
+    border-radius: 12px;
+    height: 370px;
+    width: 246.67px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+@media only screen and (max-width: 1318px) {
+    .c5 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1068px) {
+    .c4 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 827px) {
+    .c3 {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 589px) {
+    .c2 {
+        display: none;
+    }
+}
+
+.lrButton {
+    font-size: 40px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    vertical-align: middle;
+    transition: 0.3s;
+}
+
+.lrButton:hover {
+    background-color: var(--accent-color);
+    color: white;
+    border-radius: 10px;
+}
