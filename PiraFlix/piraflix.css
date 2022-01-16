@@ -34,7 +34,7 @@
 
 @font-face {
     font-family: std;
-    src: url(/resources/std.ttf);
+    src: url(resources/std.ttf);
 }
 
 html {
