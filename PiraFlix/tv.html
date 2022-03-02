@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>PiraFlix - Movies</title>
+    <title>PiraFlix - TV Shows</title>
     <meta charset="UTF-8">
     <meta name="description" content="Free Movies and TV Shows">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
                 <th>
                     <h1>
                         <div class="barOuterSearch" id="outerSearch">
-                            <input type="search" placeholder="Search Movies and TV Shows.." id="searchBar"
+                            <input type="search" placeholder="Search TV Shows.." id="searchBar"
                                 onsearch="search()" class="bar-search-bar">
                             <button id="searchButton" onclick="search()" class="barSearchButton"><span
                                     class="material-icons" style="font-size: 25px;">search</span></button>
@@ -100,7 +100,7 @@
             <a href=#Bpop1><span class="material-icons lrButton">arrow_forward_ios</span></a>
         </section>
     </div>
-    <h2 class="subHeading">Top Action</h2>
+    <h2 class="subHeading">On The Air</h2>
     <div class="moviesPane">
         <section id="Cpop1">
             <a href=#Cpop3><span class="material-icons lrButton">arrow_back_ios</span></a>
@@ -130,7 +130,7 @@
             <a href=#Cpop1><span class="material-icons lrButton">arrow_forward_ios</span></a>
         </section>
     </div>
-    <h2 class="subHeading">Jaw Dropping Drama</h2>
+    <!-- <h2 class="subHeading">Jaw Dropping Drama</h2>
     <div class="moviesPane">
         <section id="Dpop1">
             <a href=#Dpop3><span class="material-icons lrButton">arrow_back_ios</span></a>
@@ -219,7 +219,7 @@
             <a id="Fa3c5"><img id="Fp3c5" class="coverImage skeleton c5" src="images/transparent.png"></a>
             <a href=#Fpop1><span class="material-icons lrButton">arrow_forward_ios</span></a>
         </section>
-    </div>
+    </div> -->
 
 </body>
 <script>
@@ -230,21 +230,21 @@
                 return data.json();
             })
             .then(post => {
-                title1 = post.results[0].title
-                title2 = post.results[1].title
-                title3 = post.results[2].title
-                title4 = post.results[3].title
-                title5 = post.results[4].title
-                title6 = post.results[5].title
-                title7 = post.results[6].title
-                title8 = post.results[7].title
-                title9 = post.results[8].title
-                title10 = post.results[9].title
-                title11 = post.results[10].title
-                title12 = post.results[11].title
-                title13 = post.results[12].title
-                title14 = post.results[13].title
-                title15 = post.results[14].title
+                title1 = post.results[0].name
+                title2 = post.results[1].name
+                title3 = post.results[2].name
+                title4 = post.results[3].name
+                title5 = post.results[4].name
+                title6 = post.results[5].name
+                title7 = post.results[6].name
+                title8 = post.results[7].name
+                title9 = post.results[8].name
+                title10 = post.results[9].name
+                title11 = post.results[10].name
+                title12 = post.results[11].name
+                title13 = post.results[12].name
+                title14 = post.results[13].name
+                title15 = post.results[14].name
                 cover1 = 'https://www.themoviedb.org/t/p/w1280' + post.results[0].poster_path
                 cover2 = 'https://www.themoviedb.org/t/p/w1280' + post.results[1].poster_path
                 cover3 = 'https://www.themoviedb.org/t/p/w1280' + post.results[2].poster_path
@@ -275,6 +275,21 @@
                 desc13 = post.results[12].overview
                 desc14 = post.results[13].overview
                 desc15 = post.results[14].overview
+                id1 = post.results[0].id
+                id2 = post.results[1].id
+                id3 = post.results[2].id
+                id4 = post.results[3].id
+                id5 = post.results[4].id
+                id6 = post.results[5].id
+                id7 = post.results[6].id
+                id8 = post.results[7].id
+                id9 = post.results[8].id
+                id10 = post.results[9].id
+                id11 = post.results[10].id
+                id12 = post.results[11].id
+                id13 = post.results[12].id
+                id14 = post.results[13].id
+                id15 = post.results[14].id
                 genre1 = ""
                 for (let i = 0; i < post.results[0].genre_ids.length; i++) {
                     genre1 = genre1.concat(post.results[0].genre_ids[i] + ',')
@@ -337,73 +352,102 @@
                 }
                 document.getElementById(L + "p1c1").setAttribute("alt", title1)
                 document.getElementById(L + 'p1c1').setAttribute("src", cover1)
-                document.getElementById(L + 'a1c1').setAttribute("href", "player.html?title=" + title1 +
-                    "&&desc=" + desc1 + "&&page=0&&genre=" + genre1 + "&&yts=false")
+                document.getElementById(L + 'a1c1').setAttribute("href", "episodes.html?title=" + title1 +
+                    "&&desc=" + desc1 + "&&page=0&&genre=" + genre1 + "&&id=" + id1)
                 document.getElementById(L + "p1c2").setAttribute("alt", title2)
                 document.getElementById(L + 'p1c2').setAttribute("src", cover2)
-                document.getElementById(L + 'a1c2').setAttribute("href", "player.html?title=" + title2 +
-                    "&&desc=" + desc2 + "&&page=0&&genre=" + genre2 + "&&yts=false")
+                document.getElementById(L + 'a1c2').setAttribute("href", "episodes.html?title=" + title2 +
+                    "&&desc=" + desc2 + "&&page=0&&genre=" + genre2 + "&&id=" + id2)
                 document.getElementById(L + "p1c3").setAttribute("alt", title3)
                 document.getElementById(L + 'p1c3').setAttribute("src", cover3)
-                document.getElementById(L + 'a1c3').setAttribute("href", "player.html?title=" + title3 +
-                    "&&desc=" + desc3 + "&&page=0&&genre=" + genre3 + "&&yts=false")
+                document.getElementById(L + 'a1c3').setAttribute("href", "episodes.html?title=" + title3 +
+                    "&&desc=" + desc3 + "&&page=0&&genre=" + genre3 + "&&id=" + id3)
                 document.getElementById(L + "p1c4").setAttribute("alt", title4)
                 document.getElementById(L + 'p1c4').setAttribute("src", cover4)
-                document.getElementById(L + 'a1c4').setAttribute("href", "player.html?title=" + title4 +
-                    "&&desc=" + desc4 + "&&page=0&&genre=" + genre4 + "&&yts=false")
+                document.getElementById(L + 'a1c4').setAttribute("href", "episodes.html?title=" + title4 +
+                    "&&desc=" + desc4 + "&&page=0&&genre=" + genre4 + "&&id=" + id4)
                 document.getElementById(L + 'p1c5').setAttribute("src", cover5)
-                document.getElementById(L + 'a1c5').setAttribute("href", "player.html?title=" + title5 +
-                    "&&desc=" + desc5 + "&&page=0&&genre=" + genre5 + "&&yts=false")
+                document.getElementById(L + 'a1c5').setAttribute("href", "episodes.html?title=" + title5 +
+                    "&&desc=" + desc5 + "&&page=0&&genre=" + genre5 + "&&id=" + id5)
                 document.getElementById(L + "p2c1").setAttribute("alt", title6)
                 document.getElementById(L + 'p2c1').setAttribute("src", cover6)
-                document.getElementById(L + 'a2c1').setAttribute("href", "player.html?title=" + title6 +
-                    "&&desc=" + desc6 + "&&page=0&&genre=" + genre6 + "&&yts=false")
+                document.getElementById(L + 'a2c1').setAttribute("href", "episodes.html?title=" + title6 +
+                    "&&desc=" + desc6 + "&&page=0&&genre=" + genre6 + "&&id=" + id6)
                 document.getElementById(L + "p2c2").setAttribute("alt", title7)
                 document.getElementById(L + 'p2c2').setAttribute("src", cover7)
-                document.getElementById(L + 'a2c2').setAttribute("href", "player.html?title=" + title7 +
-                    "&&desc=" + desc7 + "&&page=0&&genre=" + genre7 + "&&yts=false")
+                document.getElementById(L + 'a2c2').setAttribute("href", "episodes.html?title=" + title7 +
+                    "&&desc=" + desc7 + "&&page=0&&genre=" + genre7 + "&&id=" + id7)
                 document.getElementById(L + "p2c3").setAttribute("alt", title8)
                 document.getElementById(L + 'p2c3').setAttribute("src", cover8)
-                document.getElementById(L + 'a2c3').setAttribute("href", "player.html?title=" + title8 +
-                    "&&desc=" + desc8 + "&&page=0&&genre=" + genre8 + "&&yts=false")
+                document.getElementById(L + 'a2c3').setAttribute("href", "episodes.html?title=" + title8 +
+                    "&&desc=" + desc8 + "&&page=0&&genre=" + genre8 + "&&id=" + id8)
                 document.getElementById(L + "p2c4").setAttribute("alt", title9)
                 document.getElementById(L + 'p2c4').setAttribute("src", cover9)
-                document.getElementById(L + 'a2c4').setAttribute("href", "player.html?title=" + title9 +
-                    "&&desc=" + desc9 + "&&page=0&&genre=" + genre9 + "&&yts=false")
+                document.getElementById(L + 'a2c4').setAttribute("href", "episodes.html?title=" + title9 +
+                    "&&desc=" + desc9 + "&&page=0&&genre=" + genre9 + "&&id=" + id9)
                 document.getElementById(L + "p2c5").setAttribute("alt", title10)
                 document.getElementById(L + 'p2c5').setAttribute("src", cover10)
-                document.getElementById(L + 'a2c5').setAttribute("href", "player.html?title=" + title10 +
-                    "&&desc=" + desc10 + "&&page=0&&genre=" + genre10 + "&&yts=false")
+                document.getElementById(L + 'a2c5').setAttribute("href", "episodes.html?title=" + title10 +
+                    "&&desc=" + desc10 + "&&page=0&&genre=" + genre10 + "&&id=" + id10)
                 document.getElementById(L + "p3c1").setAttribute("alt", title11)
                 document.getElementById(L + 'p3c1').setAttribute("src", cover11)
-                document.getElementById(L + 'a3c1').setAttribute("href", "player.html?title=" + title11 +
-                    "&&desc=" + desc11 + "&&page=0&&genre=" + genre11 + "&&yts=false")
+                document.getElementById(L + 'a3c1').setAttribute("href", "episodes.html?title=" + title11 +
+                    "&&desc=" + desc11 + "&&page=0&&genre=" + genre11 + "&&id=" + id11)
                 document.getElementById(L + "p3c2").setAttribute("alt", title12)
                 document.getElementById(L + 'p3c2').setAttribute("src", cover12)
-                document.getElementById(L + 'a3c2').setAttribute("href", "player.html?title=" + title12 +
-                    "&&desc=" + desc12 + "&&page=0&&genre=" + genre12 + "&&yts=false")
+                document.getElementById(L + 'a3c2').setAttribute("href", "episodes.html?title=" + title12 +
+                    "&&desc=" + desc12 + "&&page=0&&genre=" + genre12 + "&&id=" + id12)
                 document.getElementById(L + "p3c3").setAttribute("alt", title13)
                 document.getElementById(L + 'p3c3').setAttribute("src", cover13)
-                document.getElementById(L + 'a3c3').setAttribute("href", "player.html?title=" + title13 +
-                    "&&desc=" + desc13 + "&&page=0&&genre=" + genre13 + "&&yts=false")
+                document.getElementById(L + 'a3c3').setAttribute("href", "episodes.html?title=" + title13 +
+                    "&&desc=" + desc13 + "&&page=0&&genre=" + genre13 + "&&id=" + id13)
                 document.getElementById(L + "p3c4").setAttribute("alt", title14)
                 document.getElementById(L + 'p3c4').setAttribute("src", cover14)
-                document.getElementById(L + 'a3c4').setAttribute("href", "player.html?title=" + title14 +
-                    "&&desc=" + desc14 + "&&page=0&&genre=" + genre14 + "&&yts=false")
+                document.getElementById(L + 'a3c4').setAttribute("href", "episodes.html?title=" + title14 +
+                    "&&desc=" + desc14 + "&&page=0&&genre=" + genre14 + "&&id=" + id14)
                 document.getElementById(L + "p3c5").setAttribute("alt", title15)
                 document.getElementById(L + 'p3c5').setAttribute("src", cover15)
-                document.getElementById(L + 'a3c5').setAttribute("href", "player.html?title=" + title15 +
-                    "&&desc=" + desc15 + "&&page=0&&genre=" + genre15 + "&&yts=false")
+                document.getElementById(L + 'a3c5').setAttribute("href", "episodes.html?title=" + title15 +
+                    "&&desc=" + desc15 + "&&page=0&&genre=" + genre15 + "&&id=" + id15)
             });
     }
-    fetchMovie("A", "trending/movie/day") /* What's Trending */
-    fetchMovie("B", "movie/popular") /* Highly Rated */
-    fetchMovie("C", "discover/movie", "with_genres=28") /* What's Trending */
-    fetchMovie("D", "discover/movie", "with_genres=18") /* What's Trending */
-    fetchMovie("E", "discover/movie",
-        "primary_release_date.lte=2000-01-01&&primary_release_date.gte=1989-12-31") /* What's Trending */
-    fetchMovie("F", "discover/movie",
-        "primary_release_date.lte=1990-01-01&&with_genres=12,35,10751&&sort_by=vote_count.desc") /* What's Trending */
+    fetchMovie("A", "tv/popular") /* What's Trending */
+    fetchMovie("B", "tv/top_rated") /* Highly Rated */
+    fetchMovie("C", "tv/on_the_air") /* What's Trending */
+    fetchMovie("D", "discover/tv/") /* What's Trending */
+    fetchMovie("E", "discover/tv") /* What's Trending */
+    fetchMovie("F", "discover/tv") /* What's Trending */
+
+    var data = fetch('https://api.themoviedb.org/3/' + path + '?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&' +
+                arguments)
+            .then(data => {
+                return data.json();
+            })
+            .then(post => {
+                
+            });
+
+    function search() {
+        if (document.getElementById("searchBar").value !== "") {
+            document.getElementById("searchButton").setAttribute("disabled", "True")
+            var searchTerm = document.getElementById("searchBar").value;
+            var data = fetch(
+                    'https://api.themoviedb.org/3/search/tv?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&query=' +
+                    searchTerm)
+                .then(data => {
+                    return data.json();
+                })
+                .then(post => {
+                    if (post.total_results !== 0) {
+                        title = post.results[0].name;
+                        desc = post.results[0].overview
+                        id = post.results[0].id
+                        window.location.href = "episodes.html?title=" + title + "&&id=" + id
+                    }
+                });
+        }
+    }
+
 </script>
 
 </html>

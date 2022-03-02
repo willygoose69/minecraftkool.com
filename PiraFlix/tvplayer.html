@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PiraFlix TV Player</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Free Movies and TV Shows">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="piraflix.css">
+</head>
+
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var title = urlParams.get('title')
+    var magnet = urlParams.get('magnet')
+    var id = urlParams.get('id')
+    var season = urlParams.get('season')
+    var episode = urlParams.get('ep')
+    var series = urlParams.get('series')
+    if (magnet == '' || magnet == null) {
+        try {
+            var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/' + title)
+                .then(data => {
+                    return data.json();
+                })
+                .then(post => {
+                    if (post[0] != undefined) {
+                        if (post[0].Magnet != undefined) {
+                            var magnet = post[0].Magnet;
+                            window.location.href = "./tvplayer.html?title=" + title + "&&magnet=" +
+                                magnet +
+                                "&&id=" + id + "&&season=" + season + "&&ep=" + episode + "&&series" + series;
+                        } else {
+                            var magnet = post[1].Magnet;
+                            window.location.href = "./tvplayer.html?title=" + title + "&&magnet=" +
+                                magnet +
+                                "&&id=" + id + "&&season=" + season + "&&ep=" + episode + "&&series" + series;
+                        }
+                    } else {
+                        console.error("Error: Video Not Found (Undefined)")
+                        document.getElementById("player").innerText =
+                            "Sorry, the video you requested can not be found.";
+                    }
+                });
+        } catch {
+            console.error("Error: Video Not Found (Undefined)")
+            document.getElementById("player").innerText =
+                "Sorry, the torrents api is inaccessible.";
+            var magnet = window.prompt("Magnet Link cannot be fetched", "Magnet Link: ");
+            window.location.href = "./tvplayer.html?title=" + title + "&&magnet=" + magnet +
+                "&&id=" + id;
+        }
+    }
+</script>
+
+<body>
+    <div class="content">
+        <h1><a id="mainText" class="titleText" href="PiraFlix.html">PIRAFLIX</a></h1>
+        <div style="width: min-content;" id="player" class="webtor skeleton">
+        </div>
+        <h2 class="titleText" id="videoTitle"></h2>
+        <button class="blackButton" onclick="lastVideo()" id="lastVideo">Last Video</button>
+        <button class="blackButton" onclick="nextVideo()" id="nextVideo">Next Video</button>
+        <p style="max-width: 800px;" class="titleText" id="description"></p>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <h2 style="cursor: default;" class="titleText">Recommended</h2>
+        <a id="a0"><img id="img0" class="recoMovies skeleton" src="images/transparent.png"></a>
+        <a id="a1"><img id="img1" class="recoMovies skeleton" src="images/transparent.png"></a>
+        <a id="a2"><img id="img2" class="recoMovies skeleton" src="images/transparent.png"></a>
+        <a id="a3"><img id="img3" class="recoMovies skeleton" src="images/transparent.png"></a>
+    </div>
+    <script>
+        console.log(magnet)
+        var data = fetch("https://api.themoviedb.org/3/tv/" + id + "/season/" + season + "/episode/" + episode +
+                "?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&language=en-US")
+            .then(data => {
+                return data.json();
+            })
+            .then(post => {
+                document.getElementById("videoTitle").innerText = title + ': ' + post.name;
+                document.getElementById("description").innerText = post.overview
+            });
+        window.webtor = window.webtor || [];
+        window.webtor.push({
+            id: 'player',
+            magnet: magnet,
+            on: function (e) {
+                if (e.name == window.webtor.TORRENT_FETCHED) {
+                    console.log('Torrent fetched!', e.data);
+                }
+                if (e.name == window.webtor.TORRENT_ERROR) {
+                    console.log('Torrent error!');
+                    document.getElementById("playerText").innerText =
+                        "Error: The player failed to initialize.";
+                }
+            },
+            lang: 'en',
+            i18n: {
+                en: {
+                    common: {
+                        "prepare to play": "Preparing Video Stream... Please Wait...",
+                    },
+                    stat: {
+                        "seeding": "Seeding",
+                        "waiting": "Client initialization",
+                        "waiting for peers": "Waiting for peers",
+                        "from": "from",
+                    },
+                },
+            },
+        });
+
+        function lastVideo() {
+
+        }
+
+        function nextVideo() {
+
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@webtor/embed-sdk-js/dist/index.min.js" charset="utf-8" async></script>
+</body>
+
+</html>

@@ -4,7 +4,7 @@
 <head>
     <title>PiraFlix - Home</title>
     <meta charset="UTF-8">
-    <meta name="description" content="Free  Movies and TV Shows">
+    <meta name="description" content="Free Movies and TV Shows">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
@@ -121,6 +121,7 @@
                             movieName = post.results[0].title;
                             year = post.results[0].release_date.substring(0, 4)
                             title = movieName + ' (' + year + ')'
+                            ytsTitle = movieName + year
                             genre = ""
                             for (let i = 0; i < post.results[0].genre_ids.length; i++) {
                                 genre = genre.concat(post.results[i].genre_ids + ',')
@@ -132,7 +133,7 @@
                         document.getElementById("loader").innerHTML = "Now Loading '" + title + "'"
                         document.getElementById("loader").innerHTML =
                             "It takes time to find the magnet link.."
-                        var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/' + title)
+                        var data = fetch('https://torrents-api.ryukme.repl.co/api/yts/' + searchTerm)
                             .then(data => {
                                 return data.json();
                             })

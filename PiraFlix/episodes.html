@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PiraFlix - TV Shows</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="Free Movies and TV Shows">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" type="text/css" href="piraflix.css">
+</head>
+<script>
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    var title = urlParams.get('title')
+    var id = urlParams.get('id')
+    var desc = urlParams.get('desc')
+    var genre = urlParams.get('genre')
+</script>
+
+<body>
+    <img id="bg" class="bg" src="images/transparent.png">
+    <div style="cursor: default;" class="epTitleBar">
+        <table style="width: 100%;">
+            <tr>
+                <th>
+                    <h1>
+                        <a style="position: relative; left: 10px; bottom: 13.5px;" id="mainText" class="titleText"
+                            href="PiraFlix.html">PIRAFLIX</a><button class="titleButton epBarButton"><a
+                                href="movies.html">MOVIES</a></button> <button class="titleButton epBarButton"><a
+                                href="tv.html">TV SHOWS</a></button>
+                    </h1>
+                </th>
+                <th>
+                    <h1>
+                        <div class="epOuterSearch" id="epOuterSearch">
+                            <input type="search" placeholder="Search Movies and TV Shows.." id="searchBar"
+                                onsearch="search()" class="bar-search-bar">
+                            <button id="searchButton" onclick="search()" class="barSearchButton"><span
+                                    class="material-icons" style="font-size: 25px;">search</span></button>
+                        </div>
+                    </h1>
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="underBar"></div>
+    <table class="epTable">
+        <tr>
+            <th>
+                <h2 id="title" class="subHeading"></h2>
+            </th>
+        </tr>
+        <tr>
+            <th style="vertical-align: top;">
+                <div class="epContent">
+                    <img class="leftImage skeleton" id="leftImage" src="images/transparent.png">
+                    <p id="desc" class="titleText epDesc" style="position: relative; left: 45px; width: 322px;"></p>
+                </div>
+                <div class="epSidebar">
+                    <select id="seasonSelect" class="epBarButton seasonSelect" onchange="changed()"></select>
+                    <div class="episodeBox" id="eps">
+                        <div class="innerEpFiller"></div>
+                        <!-- <div class="episode titleText">
+                            <div class="epTitle">Episode 1: William is cool</div>
+                            <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png" alt="">
+                        </div> -->
+                    </div>
+                </div>
+            </th>
+        </tr>
+    </table>
+    </div>
+
+    <script>
+        document.getElementById('title').innerText = title
+        document.getElementById('desc').innerText = desc
+        var data = fetch('https://api.themoviedb.org/3/tv/' + id + '?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&')
+            .then(data => {
+                return data.json();
+            })
+            .then(post => {
+                backdrop = "https://image.tmdb.org/t/p/w1280" + post.backdrop_path
+                document.getElementById('bg').setAttribute("src", backdrop)
+                leftimage = "https://image.tmdb.org/t/p/w1280" + post.poster_path
+                document.getElementById('leftImage').setAttribute("src", leftimage)
+                num = 0
+                for (let i = 0; i < post.seasons.length; i++) {
+                    if (post.seasons[i].name != "Specials") {
+                        const para = document.createElement("option");
+                        para.innerHTML = post.seasons[i].name;
+                        const att = document.createAttribute("value");
+                        num += 1
+                        if (i < 10) {
+                            att.value = "0" + num
+                        } else {
+                            att.value = num
+                        }
+                        console.log(att.value)
+                        document.getElementById("seasonSelect").appendChild(para).setAttributeNode(att);
+                    }
+                }
+            })
+
+        function changed() {
+            num = 1
+            const para = document.getElementById("eps");
+            para.innerHTML = '<div class="innerEpFiller"></div>';
+            var data = fetch('https://api.themoviedb.org/3/tv/' + id + '/season/' + document.getElementById(
+                    "seasonSelect").value + '?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&')
+                .then(data => {
+                    return data.json();
+                })
+                .then(post => {
+                    console.log(post)
+                    for (let i = 0; i < post.episodes.length; i++) {
+                        console.log(i + 1)
+                        console.log(post.episodes[i].name)
+                        const para = document.createElement("div");
+                        if (i < 10) {
+                        e = "0" + num
+                        } else {
+                            e = num
+                        }
+                        if (post.episodes[1].season_number < 10) {
+                            s = "0" + post.episodes[0].season_number
+                        } else {
+                            s = post.episodes[0].season_number
+                        }
+                        num += 1
+                        link = 'tvplayer.html?title=' + document.getElementById('title').innerText + ' s' + s +
+                            'e' + e + "&&season=" + s + "&&ep=" + e + "&&series=" + document.getElementById('title').innerText + "&&id=" + id
+                        para.innerHTML = "<a href='" + link + "' >Episode " + (i + 1) + ": " + post
+                            .episodes[i].name + "</a>";
+                        const att = document.createAttribute("class");
+                        att.value = "episode titleText epTitle"
+                        document.getElementById("eps").appendChild(para).setAttributeNode(att)
+                    }
+                })
+        }
+
+        var data = fetch('https://api.themoviedb.org/3/tv/' + id + '/season/1' +
+                '?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&')
+            .then(data => {
+                return data.json();
+            })
+            .then(post => {
+                console.log(post)
+                num = 1
+                for (let i = 0; i < post.episodes.length; i++) {
+                    console.log(i + 1)
+                    console.log(post.episodes[i].name)
+                    const div = document.createElement("div");
+                    if (i < 10) {
+                        e = "0" + num
+                    } else {
+                        e = num
+                    }
+                    if (post.episodes[1].season_number < 10) {
+                        s = "0" + post.episodes[0].season_number
+                    } else {
+                        s = post.episodes[0].season_number
+                    }
+                    num += 1
+                    link = 'tvplayer.html?title=' + document.getElementById('title').innerText + ' s' + s +
+                            'e' + e + "&&season=" + s + "&&ep=" + e + "&&series=" + document.getElementById('title').innerText + "&&id=" + id
+                    div.innerHTML = "<a href='" + link + "' >Episode " + (i + 1) + ": " + post.episodes[i].name +
+                        "</a>";
+                    const att = document.createAttribute("class");
+                    att.value = "episode titleText epTitle"
+                    document.getElementById("eps").appendChild(div).setAttributeNode(att)
+                }
+            })
+    </script>
+    <!-- <div class="episode titleText">
+    <div class="epTitle">Episode 1: William is cool</div>
+    <img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_light_color_272x92dp.png" alt="">
+</div> -->
+
+</html>

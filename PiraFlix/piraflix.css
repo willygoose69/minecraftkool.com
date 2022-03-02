@@ -9,10 +9,14 @@
     :root {
         --shadow-color: #111;
         --accent-color: #333;
+        --op-accent-color: rgba(51, 51, 51, 0.3);
         --text-color: rgb(221, 221, 221);
         --skeleton-dark: hsl(180, 0%, 9%);
         --skeleton-light: hsl(180, 0%, 11%);
         --bar-color: rgb(41, 41, 41);
+        --op-bar-color: rgba(41, 41, 41, 0.3);
+        --select-color: rgb(31, 31, 31);
+        --bar-button-color: #333;
     }
 }
 
@@ -25,10 +29,14 @@
     :root {
         --shadow-color: grey;
         --accent-color: #333;
+        --op-accent-color: rgba(51, 51, 51, 0.3);
         --text-color: #555;
         --skeleton-dark: hsl(200, 20%, 90%);
         --skeleton-light: hsl(200, 20%, 97%);
-        --bar-color: rgb(250, 250, 250);
+        --bar-color: rgba(250, 250, 250);
+        --op-bar-color: rgba(250, 250, 250, 0.3);
+        --select-color: rgb(233, 233, 233);
+        --bar-button-color: rgb(245, 245, 245);
     }
 }
 
@@ -42,6 +50,7 @@ html {
     scrollbar-color: #777 #555;
     scroll-behavior: smooth;
 }
+
 
 html::-webkit-scrollbar {
     width: 1vw
@@ -65,6 +74,11 @@ html::-webkit-scrollbar-track:hover {
     background-color: #555;
 }
 
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration { display: none; }
+
 /* All Pages */
 
 .blackButton {
@@ -74,6 +88,7 @@ html::-webkit-scrollbar-track:hover {
     padding: 7px;
     border-radius: 3px;
     transition: 0.3s;
+    cursor: default;
 }
 
 .blackButton:hover {
@@ -84,13 +99,6 @@ html::-webkit-scrollbar-track:hover {
 .mainText {
     font-size: 550%;
     align-content: bottom;
-}
-
-/* Index Page */
-
-.midText {
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
 }
 
 .search-bar {
@@ -104,6 +112,24 @@ html::-webkit-scrollbar-track:hover {
     color: white;
     font-weight: bold;
     font-size: 13.35px;
+}
+
+.searchButton {
+    position: relative;
+    top: 8px;
+    right: 8px;
+    padding: 0px 0px;
+    border: none;
+    color: white;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Index Page */
+
+.midText {
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
 }
 
 ::placeholder {
@@ -123,19 +149,8 @@ html::-webkit-scrollbar-track:hover {
     transition: 0.3s;
 }
 
-.outerSearch:hover {
+.outerSearch:hover, .outerSearch:focus-within {
     box-shadow: 2px 1px 5px 0.5px var(--shadow-color);
-}
-
-.searchButton {
-    position: relative;
-    top: 8px;
-    right: 8px;
-    padding: 0px 0px;
-    border: none;
-    color: white;
-    background-color: transparent;
-    cursor: pointer;
 }
 
 
@@ -158,6 +173,9 @@ html::-webkit-scrollbar-track:hover {
 
 }
 
+.webtor {
+    border-radius: 7px;
+}
 
 .content {
     display: inline-block;
@@ -168,8 +186,13 @@ html::-webkit-scrollbar-track:hover {
     width: 230px;
     height: 345px;
     border: 0;
+    border-radius: 2px;
+    transition: 0.3s;
 }
 
+.recoMovies:hover {
+    border-radius: 7px;
+}
 
 .sidebar {
     float: right;
@@ -232,7 +255,13 @@ tr {
     text-align: left;
 }
 
-/* Movies Page */
+/* Movies and TV Pages */
+
+.titleButton {
+    position: relative;
+    left: 30px;
+    bottom: 20px;
+}
 
 .titleBar {
     position: absolute;
@@ -241,7 +270,7 @@ tr {
     width: 100%;
     top: 0px;
     left: 0px;
-    height: 70px;
+    height: 60px;
     box-shadow: 2px 1px 5px 0.5px var(--shadow-color);
     transition: 0.3s;
 }
@@ -251,7 +280,7 @@ tr {
 }
 
 .underBar {
-    height: 70px;
+    height: 60px;
 }
 
 .moviesPane {
@@ -328,4 +357,214 @@ tr {
     left: 45px;
     width: min-content;
     white-space: nowrap;
+    font-size: 40px;
+    cursor: default;
+    margin-bottom: 2px;
+    margin-top: 20px;
+}
+
+.barOuterSearch {
+    background-color: var(--bar-button-color);
+    width: 65%;
+    margin: auto;
+    border: 2px;
+    border-radius: 10px;
+    text-align: right;
+    box-shadow: none;
+    transition: 0.3s;
+    position: relative;
+    bottom: 15px;
+}
+
+.barOuterSearch:hover, .barOuterSearch:focus-within {
+    background-color: var(--select-color);
+}
+
+.barButton {
+    background-color: var(--bar-button-color);
+    color: white;
+    border: none;
+    padding: 7px;
+    border-radius: 3px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.barButton:hover {
+    background-color: var(--select-color);
+}
+
+.barSearchButton {
+    position: relative;
+    top: 8px;
+    right: 8px;
+    padding: 0px 0px;
+    border: none;
+    color: var(--text-color);
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.bar-search-bar {
+    width: calc(100% - 37px);
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: transparent;
+    border: 0px none;
+    outline: none;
+    color: white;
+    font-weight: bold;
+    font-size: 13.35px;
+}
+
+.bar-search-bar::placeholder {
+    color: var(--text-color);
+}
+
+/* Episodes */
+
+.leftImage {
+    width: 322px;
+    height: 483px;
+    border: 0;
+    border-radius: 2px;
+    position: relative;
+    left: 45px;
+}
+
+.bg {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+    position: fixed;
+    width: 110%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    text-align: center;
+    z-index: -1;
+}
+
+@media (max-width: 1400px) {
+    .bg {
+        height: 110%;
+        width: auto;
+    }
+}
+
+.epTitleBar {
+    position: absolute;
+    float: top;
+    background-color: var(--op-bar-color);
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    height: 60px;
+    box-shadow: 2px 1px 5px 0.5px var(--shadow-color);
+    transition: 0.3s;
+    /* opacity: 50%; */
+}
+
+.epOuterSearch {
+    background-color: rgba(1,1,1,0.05);
+    width: 65%;
+    margin: auto;
+    border: 2px;
+    border-radius: 10px;
+    text-align: right;
+    box-shadow: none;
+    transition: 0.3s;
+    position: relative;
+    bottom: 15px;
+    right: -10px;
+}
+
+.epOuterSearch:focus-within, .epOuterSearch:hover {
+    background-color: rgba(1,1,1,0.1);
+}
+
+.epBarButton {
+    background-color: rgba(1,1,1,0.05);
+    color: white;
+    border: none;
+    padding: 7px;
+    border-radius: 3px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.epBarButton:hover {
+    background-color: rgba(1,1,1,0.1);
+}
+
+.epTable {
+    /* background-color: var(--op-bar-color); */
+    background-color: rgba(1,1,1,0.3);
+    border-radius: 10px 10px 0px 0px;
+    width: 80%;
+    margin: auto;
+    position: relative;
+    top: 50px;
+    height: calc(100vh - 120px);
+}
+
+.epContent {
+    display: inline-block;
+    width: 400px;
+}
+
+.epSidebar {
+    float: right;
+    width: calc(100% - 400px);
+    text-align: left;
+    position: relative;
+}
+
+@media (max-width: 800px) {
+    .epContent{
+        width: 100%;
+    }
+    .epSidebar {
+        width: calc(100% - 45px);
+    }
+}
+.seasonSelect {
+    position: relative;
+    font-family: Arial;
+}
+
+.episodeBox {
+    top: 10px;
+    width: calc(100% - 20px);
+    border-radius: 8px 8px 0 0;
+    background-color: rgba(1,1,1,0.05);
+    margin-top: 10px;
+    min-height: calc(100vh - 238px);
+    margin-bottom: 0px;
+}
+
+.innerEpFiller {
+    background-color: #111;
+    width: 100%;
+    height: 10px;
+    opacity: 0;
+    
+}
+
+.episode {
+    background-color: rgba(1,1,1,0.05);
+    width: calc(100% - 20px);
+    position: relative;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.epTitle {
+    margin-left: 10px;
 }

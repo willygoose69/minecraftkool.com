@@ -4,7 +4,7 @@
 <head>
     <title>PiraFlix Player</title>
     <meta charset="UTF-8">
-    <meta name="description" content="Free  Movies and TV Shows">
+    <meta name="description" content="Free Movies and TV Shows">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
@@ -35,7 +35,8 @@
                     year = post.results[0].release_date.substring(0, 4)
                     title = movieName + ' (' + year + ')'
                     for (let i = 0; i < post.results[0].genre_ids.length; i++) {
-                        genre = genre.concat(post.results[0].genre_ids[i] + ',')}
+                        genre = genre.concat(post.results[0].genre_ids[i] + ',')
+                    }
                 } else {
                     title = searchTerm
                 }
@@ -49,7 +50,7 @@
                             if (post[0].Magnet != undefined) {
                                 var magnet = post[0].Magnet;
                                 window.location.href = "./player.html?title=" + title + "&&magnet=" + magnet +
-                                    "&&desc=" + desc + "&&page=1&&genre="+genre+"&&yts=" + yts;
+                                    "&&desc=" + desc + "&&page=1&&genre=" + genre + "&&yts=" + yts;
                             } else {
                                 var magnet = post[1].Magnet;
                                 window.location.href = "./player.html?title=" + title + "&&magnet=" + magnet +
@@ -128,11 +129,11 @@
         document.getElementById('img1').setAttribute("src", cover1)
         document.getElementById('a1').setAttribute("href", "player.html?title=" + title1 +
             "&&desc=" + desc1 + "&&page=0&&yts=" + id1)
-        document.getElementById("img2").innerHTML = title2
+        document.getElementById("img2").setAttribute = title2
         document.getElementById('img2').setAttribute("src", cover2)
         document.getElementById('a2').setAttribute("href", "player.html?title=" + title2 +
             "&&desc=" + desc2 + "&&page=0&&yts=" + id2)
-        document.getElementById("img3").innerHTML = title3
+        document.getElementById("img3").innerText = title3
         document.getElementById('img3').setAttribute("src", cover3)
         document.getElementById('a3').setAttribute("href", "player.html?title=" + title3 +
             "&&desc=" + desc3 + "&&page=0&&yts=" + id3)
@@ -147,85 +148,93 @@
         document.getElementById('img1').setAttribute("src", cover1)
         document.getElementById('a1').setAttribute("href", "player.html?title=" + title1 +
             "&&desc=" + desc1 + "&&page=0&&genre=" + genre1 + "&&yts=false")
-        document.getElementById("img2").innerHTML = title2
+        document.getElementById("img2").innerText = title2
         document.getElementById('img2').setAttribute("src", cover2)
         document.getElementById('a2').setAttribute("href", "player.html?title=" + title2 +
             "&&desc=" + desc2 + "&&page=0&&genre=" + genre2 + "&&yts=false")
-        document.getElementById("img3").innerHTML = title3
+        document.getElementById("img3").innerText = title3
         document.getElementById('img3').setAttribute("src", cover3)
         document.getElementById('a3').setAttribute("href", "player.html?title=" + title3 +
             "&&desc=" + desc3 + "&&page=0&&genre=" + genre3 + "&&yts=false")
     }
 
-
-    if (yts !== "false" && yts !== null) {
-        console.log("yes")
-        var data = fetch('https://yts.mx/api/v2/movie_suggestions.json?movie_id=' + yts.toString())
-            .then(data => {
-                return data.json();
-            })
-            .then(post => {
-                console.log(post)
-                title0 = post.data.movies[0].title
-                title1 = post.data.movies[1].title
-                title2 = post.data.movies[2].title
-                title3 = post.data.movies[3].title
-                cover0 = post.data.movies[0].medium_cover_image
-                cover1 = post.data.movies[1].medium_cover_image
-                cover2 = post.data.movies[2].medium_cover_image
-                cover3 = post.data.movies[3].medium_cover_image
-                desc0 = post.data.movies[0].description_full
-                desc1 = post.data.movies[1].description_full
-                desc2 = post.data.movies[2].description_full
-                desc3 = post.data.movies[3].description_full
-                id0 = post.data.movies[0].id
-                id1 = post.data.movies[1].id
-                id2 = post.data.movies[2].id
-                id3 = post.data.movies[3].id
-                apply()
-            });
-    } else {
-        let page = Math.floor(Math.random() * 20);
-        var data = fetch(
-                'https://api.themoviedb.org/3/discover/movie/?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&page=' + page +
-                '&&with_genres=' + genre)
-            .then(data => {
-                return data.json();
-            })
-            .then(post => {
-                console.log(post)
-                title0 = post.results[0].title
-                title1 = post.results[1].title
-                title2 = post.results[2].title
-                title3 = post.results[3].title
-                cover0 = "https://www.themoviedb.org/t/p/w1280" + post.results[0].poster_path
-                cover1 = "https://www.themoviedb.org/t/p/w1280" + post.results[1].poster_path
-                cover2 = "https://www.themoviedb.org/t/p/w1280" + post.results[2].poster_path
-                cover3 = "https://www.themoviedb.org/t/p/w1280" + post.results[3].poster_path
-                desc0 = post.results[0].overview
-                desc1 = post.results[1].overview
-                desc2 = post.results[2].overview
-                desc3 = post.results[3].overview
-                genre0 = ""
-                for (let i = 0; i < post.results[0].genre_ids.length; i++) {
-                    genre0 = genre0.concat(post.results[0].genre_ids[i] + ',')
-                }
-                genre1 = ""
-                for (let i = 0; i < post.results[0].genre_ids.length; i++) {
-                    genre1 = genre1.concat(post.results[1].genre_ids[i] + ',')
-                }
-                genre2 = ""
-                for (let i = 0; i < post.results[0].genre_ids.length; i++) {
-                    genre2 = genre2.concat(post.results[2].genre_ids[i] + ',')
-                }
-                genre3 = ""
-                for (let i = 0; i < post.results[0].genre_ids.length; i++) {
-                    genre3 = genre3.concat(post.results[3].genre_ids[i] + ',')
-                }
-                fetched = 0
-                applyNoYTS()
-            });
+    function recoGen() {
+        if (yts !== "false" && yts !== null) {
+            console.log("yes")
+            var data = fetch('https://yts.mx/api/v2/movie_suggestions.json?movie_id=' + yts.toString())
+                .then(data => {
+                    return data.json();
+                })
+                .then(post => {
+                    console.log(post)
+                    title0 = post.data.movies[0].title
+                    title1 = post.data.movies[1].title
+                    title2 = post.data.movies[2].title
+                    title3 = post.data.movies[3].title
+                    cover0 = post.data.movies[0].medium_cover_image
+                    cover1 = post.data.movies[1].medium_cover_image
+                    cover2 = post.data.movies[2].medium_cover_image
+                    cover3 = post.data.movies[3].medium_cover_image
+                    desc0 = post.data.movies[0].description_full
+                    desc1 = post.data.movies[1].description_full
+                    desc2 = post.data.movies[2].description_full
+                    desc3 = post.data.movies[3].description_full
+                    id0 = post.data.movies[0].id
+                    id1 = post.data.movies[1].id
+                    id2 = post.data.movies[2].id
+                    id3 = post.data.movies[3].id
+                    apply()
+                });
+        } else {
+            let page = Math.floor(Math.random() * 20);
+            var data = fetch(
+                    'https://api.themoviedb.org/3/discover/movie/?api_key=918d8bc3c9a22bd2b8a5e3d25525af9b&&page=' +
+                    page +
+                    '&&with_genres=' + genre)
+                .then(data => {
+                    return data.json();
+                })
+                .then(post => {
+                    console.log(post)
+                    if (post.total_results != 0) {
+                        title0 = post.results[0].title
+                        title1 = post.results[1].title
+                        title2 = post.results[2].title
+                        title3 = post.results[3].title
+                        cover0 = "https://www.themoviedb.org/t/p/w1280" + post.results[0].poster_path
+                        cover1 = "https://www.themoviedb.org/t/p/w1280" + post.results[1].poster_path
+                        cover2 = "https://www.themoviedb.org/t/p/w1280" + post.results[2].poster_path
+                        cover3 = "https://www.themoviedb.org/t/p/w1280" + post.results[3].poster_path
+                        desc0 = post.results[0].overview
+                        desc1 = post.results[1].overview
+                        desc2 = post.results[2].overview
+                        desc3 = post.results[3].overview
+                        genre0 = ""
+                        for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                            genre0 = genre0.concat(post.results[0].genre_ids[i] + ',')
+                        }
+                        genre1 = ""
+                        for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                            genre1 = genre1.concat(post.results[1].genre_ids[i] + ',')
+                        }
+                        genre2 = ""
+                        for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                            genre2 = genre2.concat(post.results[2].genre_ids[i] + ',')
+                        }
+                        genre3 = ""
+                        for (let i = 0; i < post.results[0].genre_ids.length; i++) {
+                            genre3 = genre3.concat(post.results[3].genre_ids[i] + ',')
+                        }
+                    } else {
+                        genre = ""
+                        recoGen()
+                    }
+                    fetched = 0
+                    applyNoYTS()
+                });
+        }
     }
+    recoGen()
 
     function lastVideo() {
         var data = fetch('https://torrents-api.ryukme.repl.co/api/piratebay/' + title)
@@ -237,7 +246,7 @@
                     var category = post[(page - 2)].Category
                     if (category == "Video") {
                         var magnet = post[(page - 2)].Magnet;
-                        document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                        document.getElementById("mainText").innerText = "PIRAFLIX"
                         window.location.href = "./player.html?title=" + title + "&&magnet=" + magnet + "&&page=" + (
                             page - 1);
                     } else {
@@ -263,17 +272,17 @@
                     var category = post[page].Category
                     if (category == "Video") {
                         var magnet = post[page].Magnet;
-                        document.getElementById("mainText").innerHTML = "PIRAFLIX"
+                        document.getElementById("mainText").innerText = "PIRAFLIX"
                         window.location.href = "./player.html?title=" + title + "&&magnet=" + magnet + "&&page=" + (
                             page + 1);
                     } else {
                         console.error("Error: Category Not 'Video'")
-                        document.getElementById("player").innerHTML = "Error: Video Not Found"
+                        document.getElementById("player").innerText = "Error: Video Not Found"
                         document.getElementById("nextVideo").remove()
                     }
                 } else {
                     console.error("Error: Movie Not Found (Undefined)")
-                    document.getElementById("player").innerHTML = "Error: Video Not Found"
+                    document.getElementById("player").innerText = "Error: Video Not Found"
                     document.getElementById("nextVideo").remove()
                 }
             });
@@ -300,10 +309,10 @@
     <script>
         console.log(magnet)
         if (title !== "null") {
-            document.getElementById("videoTitle").innerHTML = title
+            document.getElementById("videoTitle").innerText = title
         }
         if (desc !== "null") {
-            document.getElementById("description").innerHTML = desc
+            document.getElementById("description").innerText = desc
         }
         if (page == 0) {
             document.getElementById("lastVideo").remove()
@@ -322,17 +331,10 @@
                 }
                 if (e.name == window.webtor.TORRENT_ERROR) {
                     console.log('Torrent error!');
-                    document.getElementById("playerText").innerHTML =
+                    document.getElementById("playerText").innerText =
                         "Error: The player failed to initialize.";
                 }
             },
-            poster: 'https://via.placeholder.com/150/0000FF/808080',
-            subtitles: [{
-                srclang: 'en',
-                label: 'test',
-                src: 'https://raw.githubusercontent.com/andreyvit/subtitle-tools/master/sample.srt',
-                default: true,
-            }],
             lang: 'en',
             i18n: {
                 en: {
