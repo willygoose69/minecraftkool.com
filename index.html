@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinecraftKool Official Site</title>
+</head>
+<body>
+    <div class="topbar">
+        <img class="logo" src="/images/minecraftkool.png" alt="MinecraftKool Logo">
+        <p class="title">MinecraftKool</p>
+    </div>
+    <div class="widgets">
+        <div class="box" style="background-color: #5865F2; color: white; justify-content: center;">
+            <div class="box-top">
+                <img class="box-logo" src="/images/white-discord.png" alt="Discord Logo">
+                <p class="box-title">
+                    Discord
+                </p>
+                <button class="box-button dbox-button" onclick="window.open('https://discord.gg/yg3UrFhRcc')">Join</button>
+            </div>
+        </div>
+        <div class="box" style="background-color: #4b4b4b; color: white; justify-content: center;">
+            <div class="box-top">
+                <p class="box-title">
+                    PiraFlix
+                </p>
+                <button class="box-button pbox-button" onclick="window.open('/PiraFlix/PiraFlix.html')">Visit</button>
+            </div>
+        </div>
+        <div class="box" style="background-color: #a7a33d; color: white; justify-content: center;">
+            <div class="box-top">
+                <img class="box-logo" src="/images/map.webp" alt="Discord Logo">
+                <p class="box-title">
+                    Dynamic Map
+                </p>
+                <button class="box-button mbox-button" onclick="window.open('http://play.minecraftkool.com:25564')">Visit</button>
+            </div>
+        </div>
+        <div class="box" style="background-color: #1d851d; color: white; justify-content: center;">
+            <div class="box-top">
+                <p class="box-title">
+                    Minecraft Server
+                </p>
+                <div class="box-button" style="color: black; padding-left: 10px; padding-right: 10px;">play.minecraftkool.com</div>
+            </div>
+        </div>
+    </div>
+    <div class="intro">
+        <div class="intro-content">
+            <p style="margin-bottom: 0px;">MinecraftKool EarthSMP</p>
+            <div class="version">Java 1.16.5</div>
+            <div class="box-button" style="color: black; padding-left: 10px; padding-right: 10px; width: min-content; margin-top: 35px; margin-left: 5px;">
+                play.minecraftkool.com</div>
+            <button class="box-button imbox-button" style="width: 150px; margin-left: 5px; margin-top: 10px;"
+            onclick="window.open('http://play.minecraftkool.com:25564')">
+            Visit Map</button>
+        </div>
+        <img src="/images/earth.png" style="height: 95%; margin-top: 20px;">
+    </div>
+</body>
+<style>
+    @font-face {
+        font-family: 'Readex Pro';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/readexpro/v10/SLXYc1bJ7HE5YDoGPuzj_dh8na74KiwZQQxfm4wwZEregCB9a1U.woff) format('woff');
+    }
+    body {
+        margin: 0px;
+        font-family: Readex Pro;
+    }
+    .topbar {
+        height: 100px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+        background-color: white;
+        filter: drop-shadow(0px 0px 2px #000);
+        transition: .2s;
+        cursor: default;
+    }
+    .topbar:hover {
+        filter: drop-shadow(0px 0px 4px #000);
+    }
+    .logo {
+        height: 60px;
+        margin-left: 18px;
+    }
+    .title {
+        color: rgb(0, 0, 0);
+        font-size: 30px;
+        height: 50px;
+        line-height: 50px;
+    }
+    .widgets {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        width: 100%;
+    }
+    .widgets::-webkit-scrollbar {
+        display: none;
+    }
+    .box {
+        margin-top: 10px;
+        margin-left: 10px;
+        border-radius: 20px;
+        padding: 15px;
+        min-width:max-content;
+        scroll-behavior: smooth;
+    }
+    .box-top {
+        display: flex;
+        flex-direction: row;
+        gap: 15px;
+        align-items: center;
+    }
+    .box-logo {
+        height: 50px;
+    }
+    .box-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+    }
+    .box-title {
+        font-size: 30px;
+        line-height: 50px;
+        margin: 0px;
+    }
+    .box-button {
+        height: 40px;
+        min-width: 100px;
+        border-radius: 20px;
+        border: none;
+        background-color: white;
+        font-size: large;
+        font-family: Readex Pro;
+        transition: .3s;
+        display: flex;
+        justify-content: center;
+        padding: 0px;
+        line-height: 40px;
+        padding: 0px, 10px, 0px, 10px;
+    }
+    .dbox-button:hover {
+        background-color: #808af4;
+        color: white;
+    }
+    .pbox-button:hover {
+        background-color: #686868;
+        color: white;
+    }
+    .mbox-button:hover {
+        background-color: #787528;
+        color: white;
+    }
+    .imbox-button:hover {
+        background-color: rgb(43, 69, 59);
+        color: white;
+    }
+
+    .intro {
+        font-size: 50px;
+        height: 78vh;
+        margin: 0px;
+        margin-top: 10px;
+        color: #ffffff;
+        background: rgb(61,101,55);
+        background: linear-gradient(120deg, rgba(61,101,55,1) 0%, rgba(45,91,81,1) 35%, rgba(21,53,60,1) 100%);
+        border-radius: 15px 15px 0px 0px;
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: nowrap;
+        align-content: flex-end;
+    }
+    .intro-content {
+        max-width: 400px;
+        margin-right: auto;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        margin-top: 50px;
+    }
+    .version {
+        font-size: 17px;
+        background-color: #d9d9d9;
+        color: black;
+        font-family: monospace;
+        width: max-content;
+        padding: 2px;
+        margin-left: 5px;
+        margin-top: 10px;
+    }
+</style>
+<script>
+    const scrollContainer = document.querySelector(".widgets");
+    scrollContainer.addEventListener("wheel", (evt) => {
+        evt.preventDefault();
+        scrollContainer.scrollLeft += evt.deltaY;
+    });
+</script>
+</html>
