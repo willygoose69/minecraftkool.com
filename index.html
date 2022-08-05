@@ -50,7 +50,10 @@
     <div class="intro">
         <div class="intro-content">
             <p style="margin-bottom: 0px;">MinecraftKool EarthSMP</p>
-            <div class="version">Java 1.16.5</div>
+            <div class="version-status">
+                <div class="status" id="status"></div>
+                <div class="version" id="version">Loading Status...</div>    
+            </div>
             <div class="box-button" style="color: black; padding-left: 10px; padding-right: 10px; width: min-content; margin-top: 35px; margin-left: 5px;">
                 play.minecraftkool.com</div>
             <button class="box-button imbox-button" style="width: 150px; margin-left: 5px; margin-top: 10px;"
@@ -113,7 +116,7 @@
         margin-left: 10px;
         border-radius: 20px;
         padding: 15px;
-        min-width:max-content;
+        min-width: max-content;
         scroll-behavior: smooth;
     }
     .box-top {
@@ -166,7 +169,7 @@
         background-color: rgb(43, 69, 59);
         color: white;
     }
-    a {
+    button {
         color: black;
     }
     .intro {
@@ -198,8 +201,21 @@
         font-family: monospace;
         width: max-content;
         padding: 2px;
-        margin-left: 5px;
+    }
+    .status {
+        height: 15px;
+        width: 15px;
+        background-color: rgb(109, 109, 109);
+        border-radius: 15px;
+    }
+    .version-status {
         margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top: 10px;
+        margin-left: 5px;
+        gap: 10px;
     }
 </style>
 <script>
@@ -208,5 +224,23 @@
         evt.preventDefault();
         scrollContainer.scrollLeft += evt.deltaY;
     });
+
+    function getStatus() {
+        fetch('https://api.mcsrvstat.us/2/play.minecraftkool.com:25565')
+        .then(response => response.json())
+        .then(data => {
+            if (data.online) {
+                document.getElementById("status").style.backgroundColor = "rgb(115, 226, 139)";
+                document.getElementById("version").innerHTML = "Java " + data.version;
+            } else {
+                document.getElementById("status").style.backgroundColor = "rgb(226, 115, 115)";
+                document.getElementById("version").innerHTML = "Server Offline";
+            }
+        }).catch(err => {
+            document.getElementById("status").style.backgroundColor = "rgb(109, 109, 109)";
+            document.getElementById("version").innerHTML = "Status Unknown";
+        });
+    }
+    getStatus();
 </script>
 </html>
